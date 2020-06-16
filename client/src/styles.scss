@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/scss/bootstrap";
+@import "./scss/theme.scss";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+body {
+  font-family: "Montserrat";
+  min-height: 100vh;
+  color: $dark;
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 100%;
+  max-width: 500px;
+}
