@@ -1,6 +1,24 @@
-export {};
 const mongoose = require('mongoose');
 const configs = require('../configs/configs');
+
+const step = {
+  '1': {
+    type: String,
+    required: false,
+  },
+  '2': {
+    type: String,
+    required: false,
+  },
+  '3': {
+    type: String,
+    required: false,
+  },
+  '4': {
+    type: String,
+    required: false,
+  },
+};
 
 const schema = new mongoose.Schema(
   {
@@ -34,6 +52,10 @@ const schema = new mongoose.Schema(
       type: String,
       enum: ['admin', 'user'],
       default: 'user',
+    },
+    steps: {
+      type: step,
+      required: false,
     },
   },
   { timestamps: true },

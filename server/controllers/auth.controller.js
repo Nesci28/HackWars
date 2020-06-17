@@ -1,4 +1,4 @@
-import express = require('express');
+const express = require('express');
 const router = express.Router();
 
 // Middlewares
@@ -11,7 +11,7 @@ const {
 const authService = require('../services/auth.service');
 const inviteService = require('../services/invite.service');
 
-router.post(`/signup`, async (req, res, next) => {
+router.post(`/signup`, async (req, _, next) => {
   const { inviteCode, username, email, password } = req.body;
   try {
     if (!inviteCode || !username || !email || !password) {
@@ -30,7 +30,7 @@ router.post(`/signup`, async (req, res, next) => {
       password,
     );
 
-    const token = await authService.createToken(user);
+    const token = authService.createToken(user);
 
     next(new ResponseHandler(200, 'New user created', token));
   } catch (err) {
@@ -38,7 +38,7 @@ router.post(`/signup`, async (req, res, next) => {
   }
 });
 
-router.post(`/login`, async (req, res, next) => {
+router.post(`/login`, async (req, _, next) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
@@ -46,7 +46,7 @@ router.post(`/login`, async (req, res, next) => {
     }
 
     const user = await authService.findUsername(username.toLowerCase());
-    if (Object.keys(user).length === 0 || !user.password) {
+    if (!user || !user.password) {
       throw new ErrorHandler(404, "Something's wrong");
     }
 
@@ -58,7 +58,7 @@ router.post(`/login`, async (req, res, next) => {
       throw new ErrorHandler(404, "Something's wrong");
     }
 
-    const token = await authService.createToken(user);
+    const token = authService.createToken(user);
 
     next(new ResponseHandler(200, 'Login', token));
   } catch (err) {

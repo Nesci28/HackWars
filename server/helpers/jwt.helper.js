@@ -1,32 +1,32 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 
-const SALTROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-class PasswordHelpers {
+class JWTHelpers {
   constructor() {}
 
-  async encrypt(password: string): Promise<string> {
-    const pass = await bcrypt.hash(password, SALTROUNDS);
-    return pass;
+  async getId(token) {
+    token = this.cleanToken(token);
+    return (await promisify(jwt.verify)(token, JWT_SECRET)).id;
   }
 
-  async compare(password: string, passwordHash: string): Promise<boolean> {
-    return bcrypt.compare(password, passwordHash);
+  async getUsername(token) {
+    token = this.cleanToken(token);
+    return (await promisify(jwt.verify)(token, JWT_SECRET)).username;
   }
 
-  cleanToken(token: string) {
+  cleanToken(token) {
     if (token.startsWith('Bearer ')) {
       token = token.split('Bearer ')[1];
     }
     return token;
   }
 
-  createJWTToken(user: any) {
+  createJWTToken(user) {
     return jwt.sign(
       {
+        id: user._id,
         username: user.username,
         role: user.role || 'user',
       },
@@ -35,7 +35,7 @@ class PasswordHelpers {
     );
   }
 
-  async validateJWTToken(token: string) {
+  async validateJWTToken(token) {
     token = this.cleanToken(token);
     try {
       await promisify(jwt.verify)(token, JWT_SECRET);
@@ -46,4 +46,4 @@ class PasswordHelpers {
   }
 }
 
-module.exports = new PasswordHelpers();
+module.exports = new JWTHelpers();

@@ -1,0 +1,30 @@
+<div class="modal modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ title }}</h5>
+  </div>
+  <div class="modal-body">
+    <p class="text-primary">
+      {{ text }}
+    </p>
+    <form [formGroup]="form">
+      <ckeditor
+        placeholder="Input a small description on how you accomplish that task"
+        formControlName="input"
+        [editor]="Editor"
+      ></ckeditor>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="button1" type="button" class="btn btn-primary">
+      {{ button1 }}
+    </button>
+    <button
+      *ngIf="button2"
+      type="button"
+      class="btn btn-primary"
+      (click)="save()"
+    >
+      {{ button2 }}
+    </button>
+  </div>
+</div>

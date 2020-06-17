@@ -1,10 +1,11 @@
-import express = require('express');
+const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 
+const checkJWT = require('./middlewares/jwt.middleware');
 const { handleError } = require('./middlewares/errorHandler.middleware');
 const { handleResponse } = require('./middlewares/responseHandler.middleware');
 
@@ -19,14 +20,13 @@ const DB_URL = process.env.DB_URL;
 const NODE_ENV = process.env.NODE_ENV;
 
 // Middlewares
-const app: express.Application = express();
+const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(morgan('tiny'));
 
 // CORS
-console.log('configs.CORS_URL :>> ', configs.CORS_URL);
 app.use(cors({ origin: configs.CORS_URL }));
 
 // DB
@@ -44,7 +44,7 @@ mongoose.connect(
 mongoose.connection.on('connected', () => {
   console.log('Connected to DB');
 });
-mongoose.connection.on('error', (err: any) => {
+mongoose.connection.on('error', (err) => {
   console.log('Failed to connect to DB', err);
 });
 mongoose.connection.on('disconnected', () => {
@@ -52,22 +52,27 @@ mongoose.connection.on('disconnected', () => {
 });
 
 // Rate Limiting
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000,
-  max: NODE_ENV === 'dev' ? Infinity : 3,
-  message: {
-    status: 'error',
-    statusCode: 429,
-    message: 'No bruteforce allowed. reset in 1 minutes',
-  },
-});
+// const limiter = rateLimit({
+//   windowMs: 1 * 60 * 1000,
+//   max: NODE_ENV === 'dev' ? Infinity : 3,
+//   message: {
+//     status: 'error',
+//     statusCode: 429,
+//     message: 'No bruteforce allowed. reset in 1 minute',
+//   },
+// });
 
 // Routes
-app.use('/', limiter, require('./controllers/invite.controller.ts'));
-app.use('/auth', require('./controllers/auth.controller.ts'));
+app.use('/', require('./controllers/invite.controller'));
+app.use('/auth', require('./controllers/auth.controller'));
+app.use(
+  '/steps',
+  checkJWT.checkToken,
+  require('./controllers/steps.controller'),
+);
 
 // Error handling
-app.use((err: any, _: any, res: any, __: any) => {
+app.use((err, _, res, __) => {
   if (err.statusCode === 200) {
     handleResponse(err, res);
   } else {

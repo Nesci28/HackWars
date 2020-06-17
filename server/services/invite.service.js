@@ -1,4 +1,3 @@
-export {};
 const { v4 } = require('uuid');
 const crypto = require('crypto');
 
@@ -8,18 +7,18 @@ const user = require('../models/user.models');
 class InviteService {
   constructor() {}
 
-  createHashCode(UUID: string): string {
+  createHashCode(UUID) {
     return crypto.createHash('md5').update(`${UUID}${v4()}`).digest('hex');
   }
 
-  async createNewUser(UUID: string, inviteCode: string): Promise<void> {
+  async createNewUser(UUID, inviteCode) {
     await user.create({
       UUID,
       inviteCode,
     });
   }
 
-  async userExists(inviteCode: string): Promise<boolean> {
+  async userExists(inviteCode) {
     return (
       (
         await user.find({

@@ -3,16 +3,12 @@ const user = require('../models/user.models');
 
 // Helpers
 const passwordHelpers = require('../helpers/password.helper');
+const JWTHelpers = require('../helpers/jwt.helper');
 
 class AuthService {
   constructor() {}
 
-  async createUser(
-    inviteCode: string,
-    username: string,
-    email: string,
-    password: string,
-  ): Promise<any> {
+  async createUser(inviteCode, username, email, password) {
     const encryptedPassword = await passwordHelpers.encrypt(password);
     const lowerCasedUsername = username.toLowerCase();
     return user.findOneAndUpdate(
@@ -22,18 +18,15 @@ class AuthService {
     );
   }
 
-  async findUsername(username: string): Promise<any> {
+  async findUsername(username) {
     return user.findOne({ username });
   }
 
-  createToken(user: any): string {
-    return passwordHelpers.createJWTToken(user);
+  createToken(user) {
+    return JWTHelpers.createJWTToken(user);
   }
 
-  async comparePassword(
-    password: string,
-    encryptedPassword: string,
-  ): Promise<boolean> {
+  async comparePassword(password, encryptedPassword) {
     return passwordHelpers.compare(password, encryptedPassword);
   }
 }

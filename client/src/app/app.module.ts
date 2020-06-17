@@ -13,13 +13,16 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpErrorInterceptor } from './interceptors/error.interceptor';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ModalComponent } from './components/shared/modal/modal.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
     DashboardComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +32,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     FontAwesomeModule,
     ReactiveFormsModule,
     HttpClientModule,
+    CKEditorModule,
   ],
   providers: [
     // {
@@ -36,6 +40,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     //   useClass: HttpErrorInterceptor,
     //   multi: true,
     // },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
