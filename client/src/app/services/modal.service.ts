@@ -22,8 +22,8 @@ const defaultModalOptions: NgbModalOptions = {
 export class ModalService {
   constructor(private ngbModal: NgbModal) {}
 
-  async showBasicModal(options: any): Promise<string> {
-    const modalRef = this.showModal(ModalComponent);
+  async showBasicModal(component: any, options: any): Promise<string> {
+    const modalRef = this.showModal(component);
     Object.assign(modalRef.componentInstance, options);
     const modalResult = await modalRef.result;
     return modalResult;

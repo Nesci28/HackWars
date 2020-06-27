@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+{% comment %} JohnHammond {% endcomment %}

@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+import * as mongoose from 'mongoose';
 
 const schema = new mongoose.Schema(
   {
     email: {
       type: String,
       validate: {
-        validator: (v) => {
+        validator: (v: string) => {
           return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
         },
         message: 'Email validator',
@@ -17,4 +17,4 @@ const schema = new mongoose.Schema(
 
 const myDB = mongoose.connection.useDb('email');
 
-module.exports = myDB.model('Emails', schema);
+export default myDB.model('Emails', schema);

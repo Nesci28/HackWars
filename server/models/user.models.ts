@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const configs = require('../configs/configs');
+import * as mongoose from 'mongoose';
+import configs from '../configs/configs';
 
 const step = {
   '1': {
@@ -41,7 +41,7 @@ const schema = new mongoose.Schema(
     email: {
       type: String,
       validate: {
-        validator: (v) => {
+        validator: (v: string) => {
           return /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(v);
         },
         message: 'Email validator',
@@ -57,10 +57,23 @@ const schema = new mongoose.Schema(
       type: step,
       required: false,
     },
+    score: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    publicKey: {
+      type: String,
+      require: false,
+    },
+    privateKey: {
+      type: String,
+      require: false,
+    },
   },
   { timestamps: true },
 );
 
 const myDB = mongoose.connection.useDb(configs.HACKWARS_DB);
 
-module.exports = myDB.model('Users', schema);
+export default myDB.model('Users', schema);

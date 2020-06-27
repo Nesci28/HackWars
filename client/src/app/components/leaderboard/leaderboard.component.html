@@ -1,0 +1,22 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-3">
+  <table class="table table-hover" style="table-layout: fixed; width: 100%;">
+    <thead>
+      <tr>
+        <th scope="col">Score</th>
+        <th scope="col">Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let user of leaderboard?.data"
+        class="table-primary"
+        (click)="showProfile(user._id)"
+      >
+        <td>{{ user.score }}</td>
+        <td>{{ user.username }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

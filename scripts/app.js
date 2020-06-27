@@ -7,7 +7,7 @@ try {
     );
   };
   const l = () => {
-    return `unpxjnef-freire.irepry.ncc`;
+    return `unpxjnef-freire.irepry.ncc/vaivgr`;
   };
   const r = (c) =>
     c.replace(/[a-z]/gi, (s) => {
@@ -18,16 +18,14 @@ try {
   const a = [
     'pbafbyr.',
     'ybt(',
-    '{"glcr',
-    '"',
-    ':CBFG,',
-    'hey',
+    '{"',
+    'hey"',
     ':"',
-    `${l()}`,
-    ',HHVQ:',
-    '"',
-    `${m()}`,
-    '"}',
+    `${l()},`,
+    '"obql":{',
+    '"HHVQ":',
+    `"${m()}`,
+    '"}}',
     ');',
   ];
   let s = '';

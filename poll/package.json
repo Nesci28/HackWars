@@ -1,0 +1,11 @@
+{
+  "name": "poll",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Marc Gagnon",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.19"
+  }
+}

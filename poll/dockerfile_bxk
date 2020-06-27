@@ -1,0 +1,18 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y shellinabox zip openssh-client
+
+# ROOT
+RUN echo 'root:super_duper_secret_password_that_youd_never_guess' | chpasswd
+
+# SHELLINABOX
+RUN shellinaboxd -p 4201 -t --css /etc/shellinabox/options-available/00_White\ On\ Black.css -b
+
+# USER
+RUN useradd -s /bin/rbash -d /home/nesci nesci
+RUN echo 'nesci:pass' | chpasswd
+RUN echo "nesci ALL=NOPASSWD: /usr/bin/zip" >> /etc/sudoers
+
+# LOCALTUNNEL
+# RUN ssh -o "StrictHostKeyChecking no" -R localhost:80:localhost:4201 awvgae9846713piub4v@ssh.localhost.run
+CMD ["ssh", "-o", "StrictHostKeyChecking no", "-R", "localhost:80:localhost:4201", "awvgae9846713piub4v@ssh.localhost.run", "&&", "sleep", "234523452345"]

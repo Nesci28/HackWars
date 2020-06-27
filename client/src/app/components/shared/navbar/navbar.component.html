@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-md navbar-primary">
+  <h4 class="navbar-brand d-flex align-items-center mr-2 mb-0">
+    HackWars
+  </h4>
+  <button
+    class="btn btn-primary navbar-toggler hidden-sm-up"
+    (click)="collapse(true)"
+    [ngClass]="{ change: !_opened }"
+    data-target="#navbarsDefault"
+    aria-controls="navbarsDefault"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+  </button>
+  <div
+    [ngbCollapse]="_opened"
+    class="collapse navbar-collapse"
+    id="navbarsDefault"
+    [ngStyle]="{ 'max-height.px': maxHeight }"
+  >
+    <div class="nav-content" #navContent1>
+      <ul class="navbar-nav mr-auto" ngbNav #nav="ngbNav" [activeId]="1">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/leaderboard">Leaderboard</a>
+        </li>
+        <li class="nav-item">
+          <a
+            [ngClass]="{ 'd-none': !isAdmin }"
+            class="nav-link"
+            routerLink="/adminPanel"
+            >Admin Panel</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

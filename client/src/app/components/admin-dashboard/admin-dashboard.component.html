@@ -1,0 +1,67 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-3">
+  <div class="d-flex">
+    <div class="mr-2" style="flex: 1;">
+      <p class="mb-0">SSH Uername</p>
+      <input
+        type="text"
+        class="form-control"
+        [disabled]="true"
+        [(ngModel)]="sshUsername"
+      />
+    </div>
+    <div style="flex: 1;">
+      <p class="mb-0">SSH Password</p>
+      <input
+        type="text"
+        class="form-control"
+        [disabled]="true"
+        [(ngModel)]="sshPassword"
+      />
+    </div>
+  </div>
+  <div class="mt-3 text-center">
+    <div *ngIf="waitingForServer" class="sk-chase custom_spinner-position">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+    <button class="btn btn-primary mr-2" (click)="spinningUpServer()">
+      Start the server
+    </button>
+    <button *ngIf="timer" class="btn btn-outline-secondary">{{ timer }}</button>
+  </div>
+
+  <div class="mt-3">
+    <form [formGroup]="form" (keyup.enter)="checkFlag('flag1')">
+      <div class="d-flex">
+        <input
+          type="text"
+          class="form-control mr-3"
+          formControlName="flag1"
+          placeholder="User Flag"
+        />
+        <button class="btn btn-primary" (click)="checkFlag('flag1')">
+          Send
+        </button>
+      </div>
+    </form>
+    <form [formGroup]="form" (keyup.enter)="checkFlag('flag2')">
+      <div class="d-flex mt-3 mb-5">
+        <input
+          type="text"
+          class="form-control mr-3"
+          formControlName="flag2"
+          placeholder="Root Flag"
+        />
+        <button class="btn btn-primary" (click)="checkFlag('flag2')">
+          Send
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

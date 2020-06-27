@@ -1,15 +1,13 @@
-const express = require('express');
+import * as express from 'express';
 const router = express.Router();
 
 // Middlewares
-const { ErrorHandler } = require('../middlewares/errorHandler.middleware');
-const {
-  ResponseHandler,
-} = require('../middlewares/responseHandler.middleware');
+import { ErrorHandler } from '../middlewares/errorHandler.middleware';
+import { ResponseHandler } from '../middlewares/responseHandler.middleware';
 
 // Services
-const authService = require('../services/auth.service');
-const inviteService = require('../services/invite.service');
+import authService from '../services/auth.service';
+import inviteService from '../services/invite.service';
 
 router.post(`/signup`, async (req, _, next) => {
   const { inviteCode, username, email, password } = req.body;
@@ -66,4 +64,22 @@ router.post(`/login`, async (req, _, next) => {
   }
 });
 
-module.exports = router;
+router.get(`/jwt`, async (req, _, next) => {
+  try {
+    const token = req.headers['authorization'];
+    if (!token) {
+      throw new ErrorHandler(404, "Something's wrong");
+    }
+
+    const isJWTValid = authService.isJWTValid(token);
+    if (!isJWTValid) {
+      throw new ErrorHandler(404, "Something's wrong");
+    }
+
+    next(new ResponseHandler(200, 'JWT Valid'));
+  } catch (err) {
+    next(err);
+  }
+});
+
+export default router;

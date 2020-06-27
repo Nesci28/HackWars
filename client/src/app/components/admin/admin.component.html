@@ -1,0 +1,65 @@
+<app-navbar></app-navbar>
+
+<div
+  *ngIf="stepDoneBanner"
+  class="alert alert-dismissible alert-success"
+  style="z-index: 2;"
+>
+  <button
+    type="button"
+    class="close"
+    (click)="stepDoneBanner = !stepDoneBanner"
+  >
+    ×</button
+  ><strong>Well done!</strong> Your mom must be proud... Bravo!.
+</div>
+
+<div class="container mt-3">
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="card border-primary mb-3" style="max-width: 20rem;">
+      <div class="card-header text-light">Admin Login</div>
+      <div class="card-body">
+        <form [formGroup]="form" (keyup.enter)="login()">
+          <input
+            type="text"
+            formControlName="username"
+            placeholder="Admin Username"
+            class="form-control"
+            trim="blur"
+          />
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Admin Password"
+            class="form-control mt-1"
+            trim="blur"
+          />
+        </form>
+        <button class="btn btn-primary btn-block my-1" (click)="login()">
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-right">
+    <button class="btn btn-outline-primary" (click)="showHint1 = !showHint1">
+      Hint 1
+    </button>
+  </div>
+  <div *ngIf="showHint1" class="typewriter">
+    <p>
+      There is always some Robots working on websites...
+    </p>
+  </div>
+  <div class="text-right mt-3">
+    <button class="btn btn-outline-primary" (click)="showHint2 = !showHint2">
+      Hint 2
+    </button>
+  </div>
+  <div *ngIf="showHint2" class="typewriter">
+    <p>
+      Something smells fishy on how the form is being Inject...
+    </p>
+  </div>
+</div>
